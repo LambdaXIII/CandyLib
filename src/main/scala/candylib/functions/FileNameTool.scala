@@ -24,7 +24,7 @@ class FileNameTool {
     if (s.startsWith(File.separator)){
       s = s.substring(1)
     }
-    s.replaceAll(File.separator, "_")
+    s.replace(File.separator, "_")
     _pureName = s
   }
 
