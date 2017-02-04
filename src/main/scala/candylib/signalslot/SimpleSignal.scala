@@ -6,13 +6,13 @@ import scala.collection.mutable.ListBuffer
   * Created by charlie on 17-2-4.
   */
 class SimpleSignal(desc: String = "") extends SimpleSlot {
-  override val mainFunction: (AnyRef *) => Unit = (x: AnyRef*) => emit(x)
+  override val mainFunction: (Any) => Unit = (x: Any) => emit(x)
 
   var description: String = desc
 
   private val targets = new ListBuffer[SimpleSlot]()
 
-  def emit(x: AnyRef*): Unit = {
+  def emit(x: Any): Unit = {
     targets.foreach(slot => slot.run(x))
   }
 
@@ -20,9 +20,9 @@ class SimpleSignal(desc: String = "") extends SimpleSlot {
     targets += slot
   }
 
-  def connect(slotFunction: ((AnyRef *) => Unit)): Unit = {
+  def connect(slotFunction: (Any) => Unit): Unit = {
     targets += new SimpleSlot {
-      override val mainFunction: (AnyRef *) => Unit = slotFunction
+      override val mainFunction: (Any) => Unit = slotFunction
     }
   }
 
@@ -30,7 +30,7 @@ class SimpleSignal(desc: String = "") extends SimpleSlot {
     targets -= slot
   }
 
-  def disConnect(slotFunction: ((AnyRef *) => Unit)): Unit = {
+  def disConnect(slotFunction: ((Any) => Unit)): Unit = {
     targets -= targets.find(slot => slot.mainFunction == slotFunction).get
   }
 
@@ -40,11 +40,11 @@ class SimpleSignal(desc: String = "") extends SimpleSlot {
 
   def <<<(slot: SimpleSlot): Unit = connect(slot)
 
-  def <<<(func: (AnyRef *) => Unit): Unit = connect(func)
+  def <<<(func: (Any) => Unit): Unit = connect(func)
 
   def >>>(slot: SimpleSlot): Unit = disConnect(slot)
 
-  def >>>(func: (AnyRef *) => Unit): Unit = disConnect(func)
+  def >>>(func: (Any) => Unit): Unit = disConnect(func)
 
 }
 

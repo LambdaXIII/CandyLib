@@ -1,10 +1,10 @@
 package candylib.functions
 import java.io.File
 
-abstract class FileNameTool {
-  var _pureDir:String
-  var _pureName:String
-  var _pureExt:String
+class FileNameTool {
+  var _pureDir:String = ""
+  var _pureName:String = ""
+  var _pureExt:String = ""
 
   def pureDir:String = _pureDir
   def pureDir_=(dir:String):Unit = {
@@ -52,7 +52,7 @@ abstract class FileNameTool {
 
 object FileNameTool{
   def apply(filename:String):FileNameTool = new FileNameTool{
-    totalPath = (new File(filename)).getAbsolutePath
+    totalPath = new File(filename).getAbsolutePath
   }
   
   def apply(file:File):FileNameTool = new FileNameTool{
