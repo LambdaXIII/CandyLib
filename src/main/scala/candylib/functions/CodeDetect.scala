@@ -26,7 +26,7 @@ class CodeDetect(file:File) {
     var len:Int = 0
     //var done:Boolean = false
     var isASCII:Boolean = false
-    
+
 /*    不知道为什么
     这段代码不管用的*/
     /*
