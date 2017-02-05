@@ -6,6 +6,7 @@ import org.mozilla.intl.chardet.nsDetector
 import org.mozilla.intl.chardet.nsICharsetDetectionObserver
 
 import scala.collection.mutable.ArrayBuffer
+import scala.util.control.Breaks.{breakable,break}
 
 class CodeDetect(file:File) {
   val inputFile = file
@@ -23,13 +24,26 @@ class CodeDetect(file:File) {
     val imp = new BufferedInputStream(new FileInputStream((inputFile)))
     val buf = new Array[Byte](1024)
     var len:Int = 0
-    var done:Boolean = false
+    //var done:Boolean = false
     var isASCII:Boolean = false
+    
+/*    不知道为什么
+    这段代码不管用的*/
+    /*
     do {
       len = imp.read(buf, 0, buf.length)
       isASCII = detector.isAscii(buf, len)
       done = detector.DoIt(buf, len, false)
     }while((len != -1) || isASCII || done)
+*/
+    breakable{
+      do {
+        len = imp.read(buf, 0, buf.length)
+        isASCII = detector.isAscii(buf,len)
+        if (isASCII) break
+        if (detector.DoIt(buf, len, false)) break
+      }while(len != -1)
+    }
     imp.close()
     detector.DataEnd()
 
@@ -62,6 +76,7 @@ class CodeDetect(file:File) {
 
 object CodeDetect{
   def apply(file: File): CodeDetect = new CodeDetect(file)
+  def apply(filename:String):CodeDetect = new CodeDetect(new File(filename))
   def quickGuess(file:File):String = {
     new CodeDetect(file).guessEncoding()(0)
   }
