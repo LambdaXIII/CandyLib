@@ -5,32 +5,36 @@ import scala.collection.mutable.ListBuffer
 /**
   * Created by charlie on 17-2-4.
   */
-class SimpleSignal(desc: String = "") extends SimpleSlot {
-  override val mainFunction: (Any) => Unit = (x: Any) => emit(x)
+class SimpleSignal[T](desc: String = "") extends SimpleSlot[T] {
+  override val mainFunction: (T) => Unit = (x: T) => emit(x)
 
   var description: String = desc
 
-  private val targets = new ListBuffer[SimpleSlot]()
+  private val targets = new ListBuffer[SimpleSlot[T]]()
 
-  def emit(x: Any): Unit = {
+  def emit(x: T): Unit = {
     targets.foreach(slot => slot.run(x))
   }
 
-  def connect(slot: SimpleSlot): Unit = {
+  def emit(): Unit = {
+    targets.foreach(slot => slot.run(_))
+  }
+
+  def connect(slot: SimpleSlot[T]): Unit = {
     targets += slot
   }
 
-  def connect(slotFunction: (Any) => Unit): Unit = {
-    targets += new SimpleSlot {
-      override val mainFunction: (Any) => Unit = slotFunction
+  def connect(slotFunction: (T) => Unit): Unit = {
+    targets += new SimpleSlot[T] {
+      override val mainFunction: (T) => Unit = slotFunction
     }
   }
 
-  def disConnect(slot: SimpleSlot): Unit = {
+  def disConnect(slot: SimpleSlot[T]): Unit = {
     targets -= slot
   }
 
-  def disConnect(slotFunction: ((Any) => Unit)): Unit = {
+  def disConnect(slotFunction: ((T) => Unit)): Unit = {
     targets -= targets.find(slot => slot.mainFunction == slotFunction).get
   }
 
@@ -38,16 +42,18 @@ class SimpleSignal(desc: String = "") extends SimpleSlot {
     targets.clear()
   }
 
-  def <<<(slot: SimpleSlot): Unit = connect(slot)
+  def <<<(slot: SimpleSlot[T]): Unit = connect(slot)
 
-  def <<<(func: (Any) => Unit): Unit = connect(func)
+  def <<<(func: (T) => Unit): Unit = connect(func)
 
-  def >>>(slot: SimpleSlot): Unit = disConnect(slot)
+  def >>>(slot: SimpleSlot[T]): Unit = disConnect(slot)
 
-  def >>>(func: (Any) => Unit): Unit = disConnect(func)
+  def >>>(func: (T) => Unit): Unit = disConnect(func)
 
 }
 
 object SimpleSignal {
-  def apply(desc: String = ""): SimpleSignal = new SimpleSignal(desc)
+  def apply[T](desc: String = ""): SimpleSignal[T] = new SimpleSignal[T](desc)
+
+  def apply(desc: String = ""): SimpleSignal[Int] = new SimpleSignal[Int](desc)
 }
