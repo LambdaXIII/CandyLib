@@ -17,15 +17,27 @@ class NumBox[T <: Comparable[T]] extends ComparableValueHolder[T] with RangeSupp
 }
 
 object NumBox {
-  def apply[T](a: (T, T), v: T): NumBox[T] = new NumBox[T] {
+  def apply[T <: Comparable[T]](a: (T, T), v: T): NumBox[T] = new NumBox[T] {
     area = a
     value = v
   }
 
-  def apply[T](min: T, max: T, v: T): NumBox[T] = apply((min, max), v)
+  def apply[T <: Comparable[T]](min: T, max: T, v: T): NumBox[T] = apply((min, max), v)
 
-  def apply[T](a: (T, T)): NumBox[T] = apply(a, a._1)
+  def apply[T <: Comparable[T]](a: (T, T)): NumBox[T] = apply(a, a._1)
 
-  def apply[T](min: T, max: T): NumBox[T] = apply((min, max))
+  def apply[T <: Comparable[T]](min: T, max: T): NumBox[T] = apply((min, max))
+
+  def apply(v: Int): NumBox[Integer] = new NumBox[java.lang.Integer] {
+    bottom = v - 4 * v
+    top = v + 3 * v
+    value = v
+  }
+
+  def apply(v: Double): NumBox[java.lang.Double] = new NumBox[java.lang.Double] {
+    bottom = v - 4 * v
+    top = v + 3 * v
+    value = v
+  }
 
 }
