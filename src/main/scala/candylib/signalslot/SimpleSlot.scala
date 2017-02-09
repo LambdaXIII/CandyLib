@@ -15,6 +15,6 @@ object SimpleSlot {
   }
 
   def apply(function: () => Unit): SimpleSlot[Int] = new SimpleSlot[Int] {
-    override val mainFunction: (Int) => Unit = (x: Int) => function
+    override val mainFunction: (Int) => Unit = (int: Int) => function
   }
 }

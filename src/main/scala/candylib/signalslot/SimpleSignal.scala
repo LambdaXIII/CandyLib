@@ -54,6 +54,4 @@ class SimpleSignal[T](desc: String = "") extends SimpleSlot[T] {
 
 object SimpleSignal {
   def apply[T](desc: String = ""): SimpleSignal[T] = new SimpleSignal[T](desc)
-
-  def apply(desc: String = ""): SimpleSignal[Int] = new SimpleSignal[Int](desc)
 }
