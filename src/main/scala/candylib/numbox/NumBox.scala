@@ -15,3 +15,17 @@ class NumBox[T <: Comparable[T]] extends ComparableValueHolder[T] with RangeSupp
   override def value: T = _value
 
 }
+
+object NumBox {
+  def apply[T](a: (T, T), v: T): NumBox[T] = new NumBox[T] {
+    area = a
+    value = v
+  }
+
+  def apply[T](min: T, max: T, v: T): NumBox[T] = apply((min, max), v)
+
+  def apply[T](a: (T, T)): NumBox[T] = apply(a, a._1)
+
+  def apply[T](min: T, max: T): NumBox[T] = apply((min, max))
+
+}
