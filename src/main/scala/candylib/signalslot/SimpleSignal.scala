@@ -38,7 +38,7 @@ class SimpleSignal[T](desc: String = "") extends SimpleSlot[T] {
     targets -= targets.find(slot => slot.mainFunction == slotFunction).get
   }
 
-  def clearConnections(): Unit = {
+  def disConnectAll(): Unit = {
     targets.clear()
   }
 
