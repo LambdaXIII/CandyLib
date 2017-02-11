@@ -3,7 +3,7 @@ package candylib.numbox
 /**
   * Created by charlie on 17-2-10.
   */
-class NumBox[T <: Comparable[T]] extends ComparableValueHolder[T] with RangeSupport[T] with AbsFilterSupport {
+class NumBox[T <: Comparable[T]] extends OrderedValueHolder[T] with TopBottomSupport[T] with AbsFilterSupport {
   private var _value: T = _
 
   override def value_=(v: T): Unit = absFilter(v) match {
@@ -17,27 +17,25 @@ class NumBox[T <: Comparable[T]] extends ComparableValueHolder[T] with RangeSupp
 }
 
 object NumBox {
-  def apply[T <: Comparable[T]](a: (T, T), v: T): NumBox[T] = new NumBox[T] {
-    area = a
+  def apply[T <: Comparable[T]](min: T, max: T, v: T): NumBox[T] = new NumBox[T] {
+    area = (min, max)
     value = v
   }
 
-  def apply[T <: Comparable[T]](min: T, max: T, v: T): NumBox[T] = apply((min, max), v)
-
-  def apply[T <: Comparable[T]](a: (T, T)): NumBox[T] = apply(a, a._1)
-
-  def apply[T <: Comparable[T]](min: T, max: T): NumBox[T] = apply((min, max))
-
-  def apply(v: Int): NumBox[Integer] = new NumBox[java.lang.Integer] {
-    bottom = v - 4 * v
-    top = v + 3 * v
+  def apply(min: Int, max: Int, v: Int): NumBox[java.lang.Integer] = new NumBox[Integer] {
+    area = (min, max)
     value = v
   }
 
-  def apply(v: Double): NumBox[java.lang.Double] = new NumBox[java.lang.Double] {
-    bottom = v - 4 * v
-    top = v + 3 * v
+  def apply(min: Double, max: Double, v: Double): NumBox[java.lang.Double] = new NumBox[java.lang.Double] {
+    area = (min, max)
     value = v
   }
+
+  def apply(min: Int, max: Int): NumBox[java.lang.Integer] = apply(min, max, min)
+
+  def apply(min: Double, max: Double): NumBox[java.lang.Double] = apply(min, max, min)
+
+  def apply[T <: Comparable[T]](min: T, max: T): NumBox[T] = apply(min, max, min)
 
 }

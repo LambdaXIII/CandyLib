@@ -3,13 +3,13 @@ package candylib.numbox
 /**
   * Created by charlie on 17-2-10.
   */
-trait RangeSupport[T <: Comparable[T]] {
+trait TopBottomSupport[T <: Comparable[T]] {
   private var _top: T = _
   private var _bottom: T = _
 
   def top: T = _top
 
-  def top_=(value: T): Unit = if (value.compareTo(bottom) >= 0) _top = value else throw new IllegalArgumentException("Top must be higher than bottom value.")
+  def top_=(value: T): Unit = _top = value
 
   def bottom: T = _bottom
 
@@ -29,9 +29,9 @@ trait RangeSupport[T <: Comparable[T]] {
 
   def area: (T, T) = (bottom, top)
 
-  def area_=(v: (T, T)): Unit = {
+  def area_=(v: (T, T)): Unit = if (v._1.compareTo(v._2) <= 0) {
     bottom = v._1
     top = v._2
-  }
+  } else throw new IllegalArgumentException("Top value must be on top of the bottom value.")
 
 }
