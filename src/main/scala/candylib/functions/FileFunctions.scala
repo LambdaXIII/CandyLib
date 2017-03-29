@@ -2,22 +2,24 @@ package candylib.functions
 
 import java.io.File
 
+import scala.collection.mutable
+
 /**
   * Created by a on 2017/3/30.
   */
 object FileFunctions {
   def expandDirs(files:Set[File]):Set[File] = {
-    var files = Set[File]()
+    val expandedFiles = mutable.HashSet[File]()
     files.foreach((f) => {
       if(f.exists()){
         if (f.isDirectory){
-          files ++= expandDirs(f.listFiles().toSet)
+          expandedFiles ++= expandDirs(f.listFiles().toSet)
         }else{
-          files += f
+          expandedFiles += f
         }
       }
     })
-    files
+    expandedFiles.toSet
   }
 
 }
