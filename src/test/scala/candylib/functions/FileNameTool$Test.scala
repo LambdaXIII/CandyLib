@@ -13,7 +13,7 @@ class FileNameTool$Test extends FlatSpec with Matchers {
         a.pureDir should be("d:\\q\\d\\")
         a.pureName should be("a")
         a.pureExt should be(".b")
-      case m: String if (m.toLowerCase().contains("linux")) =>
+      case _ =>
         val a = FileNameTool("/d/q/d/a.b")
         a.pureDir should be("/d/q/d/")
         a.pureName should be("a")
