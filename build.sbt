@@ -1,6 +1,6 @@
 name := "CandyLib"
 
-version := "1.0"
+version := "1.5"
 
 scalaVersion := "2.12.1"
 
