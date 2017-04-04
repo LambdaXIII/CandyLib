@@ -1,6 +1,6 @@
 package candylib.functions
 
-import java.io.File
+import java.io.{File, FileInputStream}
 
 import scala.collection.mutable
 
@@ -21,5 +21,11 @@ object FileFunctions {
     })
     expandedFiles.toSet
   }
+
+  def getFileSize(file:File): Long =
+    if (file.exists()){
+      val inStream = new FileInputStream(file)
+      inStream.available()
+    }else 0
 
 }

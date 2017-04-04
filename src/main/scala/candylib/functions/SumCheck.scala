@@ -12,32 +12,17 @@ object SumCheck {
 
   private def hexStr(array:Array[Byte]):String = DatatypeConverter.printHexBinary(array).toUpperCase
 
-  private def md5_single(inputFile:File): Array[Byte] ={
+  private def md5_single(inputFile:File): Array[Byte] = {
     val b = Files.readAllBytes(Paths.get(inputFile.getAbsolutePath))
     MessageDigest.getInstance("MD5").digest(b)
   }
-
 
   def md5(fileList:Set[File]): Set[String] = {
     val files = FileFunctions.expandDirs(fileList)
     files.map((f) => hexStr(md5_single(f)))
   }
 
+  def md5(file:File): String = if (file.isDirectory) "" else hexStr(md5_single(file))
 
-  def md5(file:File): Set[String] = if (file.exists()){
-    if (file.isDirectory){
-      md5(Set(file))
-    }else{
-      Set(hexStr(md5_single(file)))
-    }
-  }else Set[String]()
-
-  def md5(filename:String): Set[String] = {
-    val file = new File(filename)
-    if (file.exists()){
-      md5(file)
-    }else{
-      Set[String]()
-    }
-  }
+  def md5(filename:String): String = md5(new File(filename))
 }
