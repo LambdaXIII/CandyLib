@@ -1,6 +1,6 @@
 package candylib.functions
 
-import java.io.{File, FileInputStream}
+import java.io._
 
 import scala.collection.mutable
 
@@ -27,5 +27,23 @@ object FileFunctions {
       val inStream = new FileInputStream(file)
       inStream.available()
     }else 0
+
+  def saveTextFile(outputFile:File, content:String, encoding:String = "UTF-8"): Unit ={
+    if (! outputFile.exists()) outputFile.createNewFile()
+
+    val writer = new BufferedWriter(
+      new OutputStreamWriter(
+        new FileOutputStream(outputFile),
+        encoding
+      )
+    )
+
+    writer.write(content)
+    writer.flush()
+    writer.close()
+  }
+
+  def saveTextFile(outputFile:String, content:String, encoding:String = "UTF-8"):Unit =
+    saveTextFile(new File(outputFile), content, encoding)
 
 }
