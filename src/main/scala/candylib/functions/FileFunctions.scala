@@ -43,7 +43,7 @@ object FileFunctions {
     writer.close()
   }
 
-  def saveTextFile(outputFile:String, content:String, encoding:String = "UTF-8"):Unit =
-    saveTextFile(new File(outputFile), content, encoding)
+  def saveTextFile(filename:String, content:String, encoding:String):Unit =
+    saveTextFile(new File(filename), content, encoding)
 
 }
