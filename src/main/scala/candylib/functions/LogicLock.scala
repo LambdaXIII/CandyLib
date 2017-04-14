@@ -2,6 +2,12 @@ package candylib.functions
 
 /**
   * Created by Charlie on 2017/2/4.
+  *
+  * A really simple structure to hold a Boolean value.
+  *
+  * It supports many logical calculating.
+  *
+  * (Maybe this is useless.
   */
 class LogicLock(init_status:Boolean = false) {
   var status:Boolean = init_status
