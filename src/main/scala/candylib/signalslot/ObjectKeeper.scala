@@ -31,6 +31,8 @@ class ObjectKeeper[T] {
     fileOpenedSignal.emit(currentFile)
   }
 
+  def open(filename:String):Unit = open(new File(filename))
+
   def save():Unit = {
     saveFunction.apply(treasure, currentFile)
     edited = false
@@ -43,6 +45,8 @@ class ObjectKeeper[T] {
     _file = file
     fileOpenedSignal.emit(currentFile)
   }
+
+  def saveAs(filename:String):Unit = saveAs(new File(filename))
 
   private var _edited = false
 
