@@ -20,3 +20,8 @@ class ObjectKeeper[T](o:T) {
   def isSaved():Boolean = ! edited
 
 }
+
+object ObjectKeeper
+{
+  def apply[T](o: T): ObjectKeeper[T] = new ObjectKeeper(o)
+}
