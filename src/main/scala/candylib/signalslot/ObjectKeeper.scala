@@ -1,20 +1,47 @@
 package candylib.signalslot
 
+import java.io.File
+
 /**
   * Created by a on 2017/4/13.
   */
-class ObjectKeeper[T]() {
-  val editStatusChangedSignal = new SimpleSignal[Boolean]("Treasure Edited.")
+class ObjectKeeper[T] {
 
-  private var _t: T = _
+  /*
+  Signals
+   */
+  val statusChangedSignal:SimpleSignal[Boolean] = new SimpleSignal[Boolean]("edited status changed")
 
-  def treasure: T = _t
+  val fileOpenedSignal:SimpleSignal[File] = new SimpleSignal[File]("file opened")
+  val fileSavedSignal:SimpleSignal[File] = new SimpleSignal[File]("file saved")
 
-  def treasure_=(v: T): Unit = _t = v
+  protected var _treasure: T = _
+  protected var _file:File = _
 
-  def this(o:T) = {
-    this()
-    treasure = o
+  def treasure: T = _treasure
+  def currentFile:File = _file
+
+  var openFunction:(File)=>T = _
+  var saveFunction:(T,File)=>Unit = _
+
+  def open(file:File):Unit = {
+    _treasure = openFunction.apply(file)
+    _file = file
+    edited = false
+    fileOpenedSignal.emit(currentFile)
+  }
+
+  def save():Unit = {
+    saveFunction.apply(treasure, currentFile)
+    edited = false
+    fileSavedSignal.emit(currentFile)
+  }
+
+  def saveAs(file:File):Unit = {
+    saveFunction.apply(treasure, file)
+    fileSavedSignal.emit(file)
+    _file = file
+    fileOpenedSignal.emit(currentFile)
   }
 
   private var _edited = false
@@ -22,16 +49,24 @@ class ObjectKeeper[T]() {
   def edited: Boolean = _edited
 
   def edited_=(v: Boolean): Unit = {
-    _edited = v
-    editStatusChangedSignal.emit(_edited)
+    if (_edited != v){
+      statusChangedSignal.emit(v)
+      _edited = v
+    }
   }
 
-  def setSaved(): Unit = edited = false
 
-  def isSaved(): Boolean = !edited
-
+  /*
+  Slots
+   */
+  val treasureEditedSlot:SimpleSlot[Boolean] = new SimpleSlot[Boolean] {
+    override val mainFunction: (Boolean) => Unit = (x) => edited = true
+  }
+  val editedStatusSlot:SimpleSlot[Boolean] = new SimpleSlot[Boolean] {
+    override val mainFunction: (Boolean) => Unit = (x) => edited = x
+  }
 }
 
-object ObjectKeeper {
-  def apply[T](o: T): ObjectKeeper[T] = new ObjectKeeper(o)
+object ObjectKeeper{
+  def apply[T](): ObjectKeeper[T] = new ObjectKeeper[T]()
 }
