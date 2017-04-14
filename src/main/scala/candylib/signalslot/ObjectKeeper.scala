@@ -12,7 +12,8 @@ class ObjectKeeper[T]() {
 
   def treasure_=(v: T): Unit = _t = v
 
-  def this(o: T) = this() {
+  def this(o:T) = {
+    this()
     treasure = o
   }
 
