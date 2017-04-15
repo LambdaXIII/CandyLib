@@ -95,8 +95,7 @@ trait ObjectKeeper[T] {
   /**
     * Save current treasure to 'currentFile' using 'saveFunction'.
     *
-    * If there is no current file (such as a new treasure), an [[IOException]]
-    * will be threw.
+    * @throws IOException if there is no current file (such as a new treasure).
     */
   def save():Unit = {
     if (currentFile != null) {
