@@ -54,13 +54,13 @@ trait ObjectKeeper[T] {
   /* The Functions MUST be implemented. */
 
   /** Implement this to create a new empty treasure. */
-  var newFunction:()=>T
+  protected val newFunction:()=>T
 
   /** Implement this to handle the way to open a file and load the treasure. */
-  var openFunction:(File)=>T
+  protected val openFunction:(File)=>T
 
   /** Implement this to handle the way to save the treasure to a file. */
-  var saveFunction:(T,File)=>Unit
+  protected val saveFunction:(T,File)=>Unit
 
 
   /* CORE FUNCTIONS */
