@@ -2,8 +2,18 @@ package candylib.numbox
 
 /**
   * Created by charlie on 17-2-10.
+  *
+  * A NumBox holds a number ( or other comparable value) with Top and Bottom
+  * value limitation and a absolute value holder.
+  *
+  * @see [[AbsFilterSupport]],[[OrderedValueHolder]],[[TopBottomSupport]]
+  *
   */
-class NumBox[T <: Comparable[T]] extends OrderedValueHolder[T] with TopBottomSupport[T] with AbsFilterSupport {
+class NumBox[T <: Comparable[T]]
+  extends OrderedValueHolder[T]
+    with TopBottomSupport[T]
+    with AbsFilterSupport {
+
   private var _value: T = _
 
   override def value_=(v: T): Unit = absFilter(v) match {
@@ -16,6 +26,9 @@ class NumBox[T <: Comparable[T]] extends OrderedValueHolder[T] with TopBottomSup
 
 }
 
+/**
+  * Factory functions of NumBox
+  */
 object NumBox {
   def apply[T <: Comparable[T]](min: T, max: T, v: T): NumBox[T] = new NumBox[T] {
     area = (min, max)
