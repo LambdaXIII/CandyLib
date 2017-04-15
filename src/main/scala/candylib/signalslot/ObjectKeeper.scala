@@ -153,8 +153,8 @@ trait ObjectKeeper[T] {
   /** a slot that will set the edited status to TRUE, no matter what
     * it received.
     */
-  val treasureEditedSlot:SimpleSlot[Boolean] = new SimpleSlot[Boolean] {
-    override val mainFunction: (Boolean) => Unit = (x) => edited = true
+  val treasureEditedSlot:SimpleSlot[Any] = new SimpleSlot[Any] {
+    override val mainFunction: (Any) => Unit = (x) => edited = true
   }
 
   /**
@@ -162,6 +162,28 @@ trait ObjectKeeper[T] {
     */
   val editedStatusSlot:SimpleSlot[Boolean] = new SimpleSlot[Boolean] {
     override val mainFunction: (Boolean) => Unit = (x) => edited = x
+  }
+
+  /**
+    * slot create a new empty treasure.
+    */
+  val newTreasureSlot:SimpleSlot[Any] = new SimpleSlot[Any] {
+    override val mainFunction: (Any) => Unit = (x) => newTreasure()
+  }
+
+  /** slot open a file */
+  val openSlot:SimpleSlot[File] = new SimpleSlot[File] {
+    override val mainFunction: (File) => Unit = (f) => open(f)
+  }
+
+  /** slot save current file */
+  val saveSlot:SimpleSlot[Any] = new SimpleSlot[Any] {
+    override val mainFunction: (Any) => Unit = (x) => save()
+  }
+
+  /** slot save treasure to a new file and open it. */
+  val saveAsSlot:SimpleSlot[File] = new SimpleSlot[File] {
+    override val mainFunction: (File) => Unit = (f) => saveAs(f)
   }
 }
 

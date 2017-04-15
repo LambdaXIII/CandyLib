@@ -23,9 +23,6 @@ package candylib.signalslot
   * @see [[SimpleSignal]]
   */
 trait SimpleSlot[T] {
-  /**
-    * The function that the slot holds.
-    */
   val mainFunction: (T) => Unit
 
   /**
@@ -40,7 +37,7 @@ object SimpleSlot {
     override val mainFunction: (T) => Unit = function
   }
 
-  def apply(function: () => Unit): SimpleSlot[Int] = new SimpleSlot[Int] {
-    override val mainFunction: (Int) => Unit = (int: Int) => function
+  def apply(function: () => Unit): SimpleSlot[Any] = new SimpleSlot[Any] {
+    override val mainFunction: (Any) => Unit = (any: Any) => function
   }
 }
