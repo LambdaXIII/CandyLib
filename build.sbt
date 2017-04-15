@@ -1,4 +1,4 @@
-name := "CandyLib"
+name := "candylib"
 
 version := "1.5"
 
@@ -15,3 +15,5 @@ libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.1" % "test"
 
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
+
+assemblyJarName in assembly := s"${name.value}_${scalaVersion.value}-${version.value}.jar"
