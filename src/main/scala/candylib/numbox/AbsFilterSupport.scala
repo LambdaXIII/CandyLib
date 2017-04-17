@@ -26,6 +26,12 @@ trait AbsFilterSupport {
     */
   def withAbs_=(v: Boolean): Unit = if (v) _withAbs = true else _withAbs = false
 
+  /**
+    * A not-so-good function to translate a value to its absolute value.
+    * @param v value input
+    * @return if 'withAbs' switch is set to true and the translation is supported,
+    *         return the absolute value, otherwise return itself
+    */
   protected def absFilter(v: Any) = if (withAbs)
     v match {
       case m: Int => Math.abs(m)
