@@ -38,16 +38,16 @@ trait ObjectKeeper[T] {
 
   /* Important variables and getters */
 
-  protected var _treasure: T = _
-  protected var _file:File = null
+  protected var _treasure: Option[T] = None
+  protected var _file: Option[File] = None
 
   /**
-    * @return current treasure loaded.
+    * @return an Option of current treasure loaded.
     */
-  def treasure: T = _treasure
+  def treasure: Option[T] = _treasure
 
-  /** @return the file holding current treasure. */
-  def currentFile:File = _file
+  /** @return an Option of the file holding current treasure. */
+  def currentFile: Option[File] = _file
 
 
 
@@ -70,8 +70,8 @@ trait ObjectKeeper[T] {
     * And edited will be set to false.
     */
   def newTreasure():Unit = {
-    _treasure = newFunction.apply()
-    _file = null
+    _treasure = Some(newFunction.apply())
+    _file = None
     edited = false
   }
 
@@ -84,10 +84,10 @@ trait ObjectKeeper[T] {
     * @param file the file you wish to open
     */
   def open(file:File):Unit = {
-    _treasure = openFunction.apply(file)
-    _file = file
+    _treasure = Some(openFunction.apply(file))
+    _file = Some(file)
     edited = false
-    fileOpenedSignal.emit(currentFile)
+    fileOpenedSignal.emit(currentFile.get)
   }
 
   def open(filename:String):Unit = open(new File(filename))
@@ -99,9 +99,9 @@ trait ObjectKeeper[T] {
     */
   def save():Unit = {
     if (currentFile != null) {
-      saveFunction.apply(treasure, currentFile)
+      saveFunction.apply(treasure.get, currentFile.get)
       edited = false
-      fileSavedSignal.emit(currentFile)
+      fileSavedSignal.emit(currentFile.get)
     }else{
       throw new IOException("You must use saveAs function to save a new file.")
     }
@@ -119,10 +119,10 @@ trait ObjectKeeper[T] {
     * @param file new file you wish to save as.
     */
   def saveAs(file:File):Unit = {
-    saveFunction.apply(treasure, file)
+    saveFunction.apply(treasure.get, file)
     fileSavedSignal.emit(file)
-    _file = file
-    fileOpenedSignal.emit(currentFile)
+    _file = Some(file)
+    fileOpenedSignal.emit(currentFile.get)
   }
 
   def saveAs(filename:String):Unit = saveAs(new File(filename))
