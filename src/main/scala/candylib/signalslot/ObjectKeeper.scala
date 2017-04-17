@@ -129,7 +129,7 @@ trait ObjectKeeper[T] {
 
   private var _edited = false
 
-  /** the edited status */
+  /** @return the edited status */
   def edited: Boolean = _edited
 
   /**
@@ -138,7 +138,7 @@ trait ObjectKeeper[T] {
     * If the new value equals to the old one,
     * 'statusChangedSignal' will NOT be emitted.
     *
-    * @param v
+    * @param v new status boolean value
     */
   def edited_=(v: Boolean): Unit = {
     if (_edited != v){
