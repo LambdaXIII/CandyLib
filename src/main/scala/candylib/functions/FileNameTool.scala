@@ -50,7 +50,7 @@ class FileNameTool {
   def toFile :File = new File(totalPath)
 }
 
-
+@deprecated
 object FileNameTool{
   def apply(filename:String):FileNameTool = new FileNameTool{
     totalPath = new File(filename).getAbsolutePath
