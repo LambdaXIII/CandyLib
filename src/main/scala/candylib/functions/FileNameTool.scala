@@ -1,6 +1,7 @@
 package candylib.functions
 import java.io.File
 
+@deprecated
 class FileNameTool {
   var _pureDir:String = ""
   var _pureName:String = ""
