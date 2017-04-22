@@ -123,6 +123,7 @@ trait ObjectKeeper[T] {
     fileSavedSignal.emit(file)
     _file = Some(file)
     fileOpenedSignal.emit(currentFile.get)
+    edited = false
   }
 
   def saveAs(filename:String):Unit = saveAs(new File(filename))
