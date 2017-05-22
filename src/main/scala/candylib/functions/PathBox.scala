@@ -63,7 +63,7 @@ class PathBox(file:File) {
     _path = left + File.separator + newRight
   }
 
-  def toFile(): File = new File(_path)
+  def toFile: File = new File(_path)
 
   override def toString: String = _path
 
