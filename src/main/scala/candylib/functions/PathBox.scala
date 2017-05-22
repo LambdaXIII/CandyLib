@@ -79,4 +79,22 @@ object PathBox{
   def apply(file: File): PathBox = new PathBox(file)
 
   def apply(filename: String): PathBox = new PathBox(filename)
+
+  def changeFilename(file:File, new_filename:String):PathBox = new PathBox(file){
+    filename = new_filename
+  }
+
+  def changeFilename(file:String, new_filename:String):PathBox = changeFilename(new File(file), new_filename)
+
+  def changeSuffix(file:File, new_suffix:String):PathBox = new PathBox(file){
+    suffix = new_suffix
+  }
+
+  def changeSuffix(file:String, new_suffix:String):PathBox = changeSuffix(new File(file), new_suffix)
+
+  def changeDir(file:File, new_dir:String):PathBox = new PathBox(file){
+    dir = new_dir
+  }
+
+  def changeDir(file:String, new_dir:String):PathBox = changeDir(new File(file), new_dir)
 }
