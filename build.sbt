@@ -12,6 +12,9 @@ scalaVersion := "2.12.1"
 //)
 
 libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.1" % "test"
+// https://mvnrepository.com/artifact/com.github.albfernandez/juniversalchardet
+libraryDependencies += "com.github.albfernandez" % "juniversalchardet" % "2.0.0"
+
 
 
 assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false)
